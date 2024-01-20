@@ -1,0 +1,37 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <img src="./assets/imagenes/logo.jpeg" style="width: 100%;">
+      <h1 appTitulo fontSize="12px">by Felix Da Dalt</h1>
+      <hr>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          {{node.name}}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <mat-icon>{{node.icono}}</mat-icon>-{{node.name}}
+        </mat-tree-node>
+      </mat-tree>
+    </mat-drawer>
+
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
+          <mat-icon >menu</mat-icon>
+        </button>
+        <span class="example-spacer"></span>
+      </mat-toolbar>
+
+        <div class="example-sidenav-content">
+            <app-alumnos></app-alumnos>
+        </div>
+
+  </mat-drawer-container>

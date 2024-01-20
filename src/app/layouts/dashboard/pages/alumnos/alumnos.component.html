@@ -1,0 +1,50 @@
+<h1 appTitulo>Alumnos</h1>
+<hr>
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{alumnoActualizar?'Modificar Alumno':'Alta de Alumno'}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-alumno-formulario (nuevoAlumno)="enviarAlumno($event)" [actualizarAlumno]="alumnoActualizar"></app-alumno-formulario>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="pt-5">
+  <table mat-table [dataSource]="alumnos" class="mat-elevation-z8">
+    <ng-container matColumnDef="apellidoyNombre">
+      <th mat-header-cell *matHeaderCellDef> Apellido y nombre</th>
+      <td mat-cell *matCellDef="let alumno"> {{alumno | nombreCompleto:'capitalcase'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ano">
+      <th mat-header-cell *matHeaderCellDef> Año </th>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.ano}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="curso">
+      <th mat-header-cell *matHeaderCellDef> Curso </th>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.curso | uppercase}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef> Telefono </th>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.telefono}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="#">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td *matCellDef="let alumno">
+        <button mat-icon-button color="primary" (click)="actualizarAlumno(alumno)">
+          <mat-icon>manage_accounts</mat-icon>
+        </button>
+        <button mat-icon-button class="button-remove" (click)="eliminarAlumno(alumno)">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
