@@ -3,4 +3,5 @@ export interface Menu {
   hijo?: Menu[];
   icono?: string;
   componente?:string
+  enlace?:string
 }

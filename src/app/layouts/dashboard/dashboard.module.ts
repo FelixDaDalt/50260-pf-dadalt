@@ -8,6 +8,10 @@ import { AlumnosModule } from './pages/alumnos/alumnos.module';
 import { CompartidosModule } from '../../compartidos/compartidos.module';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatButtonModule} from '@angular/material/button';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { CursosModule } from './pages/cursos/cursos.module';
+import { ClasesModule } from './pages/clases/clases.module';
+
 
 @NgModule({
   declarations: [
@@ -19,9 +23,12 @@ import {MatButtonModule} from '@angular/material/button';
     MatToolbarModule,
     MatIconModule,
     AlumnosModule,
+    CursosModule,
+    ClasesModule,
     CompartidosModule,
     MatTreeModule,
-    MatButtonModule
+    MatButtonModule,
+    DashboardRoutingModule
   ],
   exports:[
     DashboardComponent

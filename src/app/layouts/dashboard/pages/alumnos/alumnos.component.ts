@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { Alumno } from './modelo/alumno';
+import { Alumno } from './modelos/alumno';
 import { MatTableDataSource } from '@angular/material/table';
+import { AlumnosService } from './alumnos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alumnos',
@@ -9,15 +11,29 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class AlumnosComponent {
 
-  displayedColumns: string[] = ['apellidoyNombre','ano','curso','telefono','#'];
+  displayedColumns: string[] = ['id','apellidoyNombre','ano','curso','telefono','#'];
   alumnos= new MatTableDataSource<Alumno>([]);
   alumnoActualizar!:Alumno|null
+
+  constructor(private alumnosService:AlumnosService,private router: Router){
+    this.obtenerAlumnos()
+  }
+
+  private obtenerAlumnos(){
+    this.alumnosService.obtenerAlumnos().subscribe({
+      next:(alumnos)=>{
+        this.alumnos.data = alumnos
+        this.alumnos._updateChangeSubscription()
+      }
+    })
+  }
 
   enviarAlumno(event:Alumno):void{
     if(event)
     {
       if(this.alumnoActualizar){
         this.modificarAlumno(event)
+        this.alumnoActualizar = null
         return
       }
       this.agregarAlumno(event)
@@ -26,30 +42,29 @@ export class AlumnosComponent {
   }
 
 
-  private modificarAlumno(event:Alumno):void{
-    const indice = this.alumnos.data.findIndex(alumno=>alumno==this.alumnoActualizar)
-    if(indice!== -1){
-      this.alumnos.data[indice]=event
-      this.alumnoActualizar = null
-      this.alumnos._updateChangeSubscription()
-    }
+  private modificarAlumno(alumno:Alumno):void{
+    this.alumnosService.actualizarAlumnos(alumno)
   }
 
-  private agregarAlumno(event:Alumno):void{
-    this.alumnos.data.push(event)
-    this.alumnos._updateChangeSubscription()
-    return
+  private agregarAlumno(alumno:Alumno):void{
+    this.alumnosService.agregarAlumnos(alumno)
   }
 
   eliminarAlumno(alumno:Alumno):void{
-    const indice = this.alumnos.data.findIndex(alu=>alu===alumno)
-    if(indice!== -1){
-      this.alumnos.data.splice(indice,1)
-      this.alumnos._updateChangeSubscription()
-    }
+    this.alumnosService.borrarAlumno(alumno)
   }
 
   actualizarAlumno(alumno:Alumno):void{
     this.alumnoActualizar=alumno
+  }
+
+  verAlumno(alumno:Alumno):void{
+    this.router.navigate(
+      [
+        'dashboard',
+        'alumnos',
+        'ver',
+        alumno.id,
+      ])
   }
 }

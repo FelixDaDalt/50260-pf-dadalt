@@ -43,9 +43,9 @@
     <div class="col-4">
       <mat-form-field class="full-width">
         <mat-label>Curso</mat-label>
-        <input type="text" matInput placeholder="curso" formControlName="curso">
-        <mat-error *ngIf="formulario.get('curso')?.hasError('required')">El curso es requerido</mat-error>
-        <mat-error *ngIf="formulario.get('curso')?.hasError('pattern')">El curso debe ser una letra</mat-error>
+        <mat-select formControlName="curso">
+            <mat-option *ngFor="let curso of cursos" [value]="curso">{{curso.nombre}}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>

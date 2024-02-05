@@ -1,6 +1,8 @@
-import { Alumno } from './../../modelo/alumno';
+import { Alumno } from '../../modelos/alumno';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup,Validators} from '@angular/forms';
+import { CursosService } from '../../../cursos/cursos.service';
+import { curso } from '../../../cursos/modelos/curso';
 
 
 @Component({
@@ -12,26 +14,38 @@ export class AlumnoFormularioComponent implements OnChanges {
 
   formulario!: FormGroup
   niveles=['inicial','primario','secundario','terciario']
+  cursos:curso[]=[]
 
   @Output() nuevoAlumno = new EventEmitter()
   @Input() actualizarAlumno!:Alumno | null
 
-  constructor(private fb:FormBuilder){
+  constructor(private fb:FormBuilder, private cursosService:CursosService){
       this.formulario = this.fb.group({
+      id:[],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       telefono: ['', [Validators.required,Validators.pattern('^[0-9]*$')]],
       nivel: ['', Validators.required],
       ano: ['', [Validators.pattern('^[1-6]$'), Validators.required]],
-      curso: ['', [Validators.required, Validators.pattern('^[a-zA-Z]$')]],
+      curso: ['',Validators.required],
     });
 
+    this.obtenerCursos()
 
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['actualizarAlumno'] && this.actualizarAlumno) {
       this.formulario.patchValue(this.actualizarAlumno);
     }
+  }
+
+  private obtenerCursos(){
+    this.cursosService.obtenerCursos().subscribe({
+      next:(cursos)=>{
+        this.cursos = cursos
+      }
+    })
   }
 
   enviar(){

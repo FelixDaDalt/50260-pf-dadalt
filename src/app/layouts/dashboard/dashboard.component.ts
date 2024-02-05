@@ -8,6 +8,7 @@ interface ExampleFlatNode {
   name: string;
   level: number;
   icono:string;
+  enlace:string
 }
 
 @Component({
@@ -21,12 +22,20 @@ export class DashboardComponent {
     {
       nombre: 'Estudiantes',
       icono:'person_raised_hand',
-      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
+      hijo: [{nombre: 'Alta',enlace:'alumnos'}, {nombre: 'Modificacion',enlace:'alumnos'}, {nombre: 'Listado'}],
+      enlace:'alumnos'
     },
     {
-      nombre: 'Docentes',
+      nombre: 'Clases',
+      icono:'dashboard',
+      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
+      enlace:'clases'
+    },
+    {
+      nombre: 'Cursos',
       icono:'record_voice_over',
       hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
+      enlace:'cursos'
     },
   ];
 
@@ -35,7 +44,8 @@ export class DashboardComponent {
       expandable: !!node.hijo && node.hijo.length > 0,
       name: node.nombre,
       level: level,
-      icono:node.icono || ''
+      icono:node.icono || '',
+      enlace:node.enlace || '',
     };
   };
 

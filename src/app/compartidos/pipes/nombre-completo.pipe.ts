@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Alumno } from '../../layouts/dashboard/pages/alumnos/modelo/alumno';
+import { Alumno } from '../../layouts/dashboard/pages/alumnos/modelos/alumno';
 
 @Pipe({
   name: 'nombreCompleto'
@@ -7,7 +7,6 @@ import { Alumno } from '../../layouts/dashboard/pages/alumnos/modelo/alumno';
 export class NombreCompletoPipe implements PipeTransform {
 
   transform(value: Alumno, mode?:'uppercase' | 'lowercase' | 'capitalcase', ...args: unknown[]): unknown {
-    console.log(args);
     const valor = value.apellido + ', ' + value.nombre;
     switch (mode) {
       case 'uppercase':
