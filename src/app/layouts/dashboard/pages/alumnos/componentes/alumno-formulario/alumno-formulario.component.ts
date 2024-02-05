@@ -24,9 +24,10 @@ export class AlumnoFormularioComponent implements OnChanges {
       id:[],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      telefono: ['', [Validators.required,Validators.pattern('^[0-9]*$')]],
-      nivel: ['', Validators.required],
-      ano: ['', [Validators.pattern('^[1-6]$'), Validators.required]],
+      documento: ['', [Validators.required, Validators.pattern('^[0-9]*$')], Validators.min(8)],
+      telefono: ['', [Validators.pattern('^[0-9]*$')]],
+      direccion:[''],
+
       curso: ['',Validators.required],
     });
 

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AlumnosComponent {
 
-  displayedColumns: string[] = ['id','apellidoyNombre','ano','curso','telefono','#'];
+  displayedColumns: string[] = ['id','apellidoyNombre','DNI','curso','#'];
   alumnos= new MatTableDataSource<Alumno>([]);
   alumnoActualizar!:Alumno|null
 

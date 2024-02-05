@@ -7,6 +7,7 @@ import { CursoVerComponent } from './componentes/curso-ver/curso-ver.component';
 import { CursosRoutingModule } from './cursos-routing.module';
 
 
+
 @NgModule({
     declarations: [
         CursosComponent,

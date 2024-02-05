@@ -17,27 +17,24 @@
     </div>
     <div class="col-4">
       <mat-form-field class="full-width">
+        <mat-label>DNI</mat-label>
+        <input type="number" matInput placeholder="DNI" formControlName="documento">
+        <mat-error *ngIf="formulario.get('documento')?.hasError('required')">El DNI es requerido</mat-error>
+        <mat-error *ngIf="formulario.get('documento')?.hasError('min')">El DNI debe contener 8 digitos</mat-error>
+        <mat-error *ngIf="formulario.get('documento')?.hasError('pattern')">El DNI debe contener solo números</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-4">
+      <mat-form-field class="full-width">
         <mat-label>Telefono</mat-label>
         <input type="number" matInput placeholder="Telefono" formControlName="telefono">
-        <mat-error *ngIf="formulario.get('nombre')?.hasError('required')">El telefono es requerido</mat-error>
         <mat-error *ngIf="formulario.get('nombre')?.hasError('pattern')">El teléfono debe contener solo números</mat-error>
       </mat-form-field>
     </div>
     <div class="col-4">
       <mat-form-field class="full-width">
-        <mat-label>Nivel</mat-label>
-        <mat-select formControlName="nivel">
-            <mat-option *ngFor="let nivel of niveles" [value]="nivel">{{nivel}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="formulario.get('nivel')?.hasError('required')">El Nivel es requerido</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Año</mat-label>
-        <input type="number" matInput placeholder="Año" formControlName="ano">
-        <mat-error *ngIf="formulario.get('ano')?.hasError('required')">El año es requerido</mat-error>
-        <mat-error *ngIf="formulario.get('ano')?.hasError('pattern')">El año debe ser del 1 al 6</mat-error>
+        <mat-label>Direccion</mat-label>
+        <input type="text" matInput placeholder="Direccion" formControlName="direccion">
       </mat-form-field>
     </div>
     <div class="col-4">

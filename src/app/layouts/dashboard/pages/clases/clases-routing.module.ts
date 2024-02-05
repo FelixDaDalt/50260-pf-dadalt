@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AlumnosComponent } from './alumnos.component';
-import { AlumnoVerComponent } from './componentes/alumno-ver/alumno-ver.component';
+import { ClasesComponent } from './clases.component';
+import { ClasesVerComponent } from './componentes/clases-ver/clases-ver.component';
+
 
 const routes: Routes = [
   {
     path: '',
-    component: AlumnosComponent,
+    component: ClasesComponent,
   },
   {
     path: 'ver/:id',
-    component: AlumnoVerComponent,
+    component: ClasesVerComponent,
   },
 
 ];
@@ -21,4 +22,4 @@ const routes: Routes = [
 })
 
 
-export class AlumnosRoutingModule { }
+export class ClasesRoutingModule { }

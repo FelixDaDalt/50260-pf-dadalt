@@ -13,7 +13,7 @@ import { ClasesService } from '../../clases.service';
 export class ClaseFormularioComponent {
   diasCursada:string[]=['Lunes','Martes','Miercoles','Jueves','Viernes','Sabados','Domingo']
   formulario!: FormGroup
-  cursos:curso[]=[]
+
 
   @Output() nuevaClase = new EventEmitter()
   @Input() actualizarClase!:clase | null
@@ -27,10 +27,8 @@ export class ClaseFormularioComponent {
       horaFin: ['', Validators.required],
       fechaInicio: ['', [Validators.required]],
       fechaFin: ['',Validators.required],
-      curso: ['',Validators.required],
+      docente: ['',Validators.required]
     });
-
-    this.obtenerCursos()
 
   }
 
@@ -40,13 +38,6 @@ export class ClaseFormularioComponent {
     }
   }
 
-  private obtenerCursos(){
-    this.cursosService.obtenerCursos().subscribe({
-      next:(cursos)=>{
-        this.cursos = cursos
-      }
-    })
-  }
 
   enviar(){
     const nuevaClase = this.formulario.value

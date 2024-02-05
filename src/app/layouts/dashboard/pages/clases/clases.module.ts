@@ -3,18 +3,20 @@ import { CommonModule } from '@angular/common';
 import { ClasesComponent } from './clases.component';
 import { ClaseFormularioComponent } from './componentes/clase-formulario/clase-formulario.component';
 import { CompartidosModule } from '../../../../compartidos/compartidos.module';
-
-
+import { ClasesVerComponent } from './componentes/clases-ver/clases-ver.component';
+import { ClasesRoutingModule } from './clases-routing.module';
 
 
 @NgModule({
   declarations: [
     ClasesComponent,
-    ClaseFormularioComponent
+    ClaseFormularioComponent,
+    ClasesVerComponent
   ],
   imports: [
     CommonModule,
-    CompartidosModule
+    CompartidosModule,
+    ClasesRoutingModule
   ],
   exports:[
     ClasesComponent,

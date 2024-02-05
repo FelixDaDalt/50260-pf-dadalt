@@ -4,8 +4,8 @@ export interface Alumno{
   id:string,
   nombre:string,
   apellido:string,
-  ano:number,
-  nivel:string,
+  documento:number,
   telefono:number,
+  direccion:string,
   curso:curso
 }

@@ -20,12 +20,6 @@ export class DashboardComponent {
   showFiller = false;
   menu: Menu[] = [
     {
-      nombre: 'Estudiantes',
-      icono:'person_raised_hand',
-      hijo: [{nombre: 'Alta',enlace:'alumnos'}, {nombre: 'Modificacion',enlace:'alumnos'}, {nombre: 'Listado'}],
-      enlace:'alumnos'
-    },
-    {
       nombre: 'Clases',
       icono:'dashboard',
       hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
@@ -36,6 +30,12 @@ export class DashboardComponent {
       icono:'record_voice_over',
       hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
       enlace:'cursos'
+    },
+    {
+      nombre: 'Estudiantes',
+      icono:'person_raised_hand',
+      hijo: [{nombre: 'Alta',enlace:'alumnos'}, {nombre: 'Modificacion',enlace:'alumnos'}, {nombre: 'Listado'}],
+      enlace:'alumnos'
     },
   ];
 

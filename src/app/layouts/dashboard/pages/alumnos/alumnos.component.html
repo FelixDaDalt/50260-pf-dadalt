@@ -16,7 +16,7 @@
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let alumno"> {{alumno.id}} </td>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.id | slice:5 }} </td>
     </ng-container>
 
     <ng-container matColumnDef="apellidoyNombre">
@@ -24,19 +24,14 @@
       <td mat-cell *matCellDef="let alumno"> {{alumno | nombreCompleto:'capitalcase'}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="ano">
-      <th mat-header-cell *matHeaderCellDef> Año </th>
-      <td mat-cell *matCellDef="let alumno"> {{alumno.ano}} </td>
+    <ng-container matColumnDef="DNI">
+      <th mat-header-cell *matHeaderCellDef> DNI </th>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.dni}} </td>
     </ng-container>
 
     <ng-container matColumnDef="curso">
       <th mat-header-cell *matHeaderCellDef> Curso </th>
       <td mat-cell *matCellDef="let alumno"> {{alumno.curso.nombre | uppercase}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="telefono">
-      <th mat-header-cell *matHeaderCellDef> Telefono </th>
-      <td mat-cell *matCellDef="let alumno"> {{alumno.telefono}} </td>
     </ng-container>
 
     <ng-container matColumnDef="#">

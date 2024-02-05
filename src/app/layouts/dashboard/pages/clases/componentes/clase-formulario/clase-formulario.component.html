@@ -46,11 +46,9 @@
     </div>
     <div class="col-4">
       <mat-form-field class="full-width">
-        <mat-label>Cursos</mat-label>
-        <mat-select  formControlName='curso' multiple>
-            <mat-option *ngFor="let curso of cursos" [value]="curso">{{curso.nombre}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="formulario.get('diasCursada')?.hasError('required')">Indique los cursos que pertenecen a la clase</mat-error>
+        <mat-label>Docente</mat-label>
+        <input type="text" matInput placeholder="Docente" formControlName="docente">
+        <mat-error *ngIf="formulario.get('docente')?.hasError('required') && formulario.get('docente')?.touched">El nombre del docente es requerido</mat-error>
       </mat-form-field>
     </div>
   </div>

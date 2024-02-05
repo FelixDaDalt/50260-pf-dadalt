@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { clase } from './modelos/clase';
 import { ClasesService } from './clases.service';
 import { Router } from '@angular/router';
+import { DialogComponent } from '../../../../compartidos/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-clases',
@@ -10,11 +12,13 @@ import { Router } from '@angular/router';
   styleUrl: './clases.component.scss'
 })
 export class ClasesComponent {
-  displayedColumns: string[] = ['id','Nombre','DiaCursada','HoraInicio','HoraFin','FechaInicio','FechaFin','#'];
+  displayedColumns: string[] = ['id','Nombre','DiaCursada','HoraInicio','HoraFin','FechaInicio','FechaFin', 'Docente','#'];
   clases= new MatTableDataSource<clase>([]);
   claseActualizar!:clase|null
 
-  constructor(private claseService:ClasesService,private router: Router){
+  constructor(private claseService:ClasesService,
+    private router: Router,
+    public dialog: MatDialog){
     this.obtenerClases()
   }
 
@@ -51,6 +55,12 @@ export class ClasesComponent {
   }
 
   eliminarClase(clase:clase):void{
+    if(clase.curso.length > 0){
+      const dialogRef = this.dialog.open(DialogComponent, {
+        data: {titulo: 'Error', contenido: 'No se puede eliminar '+clase.nombre+' porque esta asignada a cursos.'},
+      });
+      return;
+    }
     this.claseService.borrarclase(clase)
   }
 

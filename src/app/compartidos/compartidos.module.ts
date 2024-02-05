@@ -11,11 +11,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { SlicePipe } from './pipes/slice.pipe';
 
 
 
 @NgModule({
-  declarations: [NombreCompletoPipe, TituloDirective, DialogComponent],
+  declarations: [NombreCompletoPipe, TituloDirective, DialogComponent, SlicePipe],
   imports: [
     CommonModule,
     MatDialogTitle,
@@ -33,6 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
   exports:[
   NombreCompletoPipe,
   TituloDirective,
+  SlicePipe,
   MatDialogTitle,
   MatDialogContent,
   MatDialogActions,

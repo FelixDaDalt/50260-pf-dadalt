@@ -9,5 +9,6 @@ export interface clase{
   horaFin:Time;
   fechaInicio:Date;
   fechaFin:Date;
-  cursos:curso[]
+  docente:string;
+  curso:curso[]
 }
