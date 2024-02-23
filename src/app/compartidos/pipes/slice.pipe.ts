@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SlicePipe implements PipeTransform {
 
   transform(cadena: string,longitud: number, ...args: unknown[]): unknown {
+
     const valor=cadena
     if (cadena.length > longitud) {
       return cadena.slice(0, longitud) + '...';

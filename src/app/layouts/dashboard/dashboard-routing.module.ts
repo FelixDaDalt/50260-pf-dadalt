@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './dashboard.component';
+import { adminGuard } from '../../core/guards/admin.guard';
 
 
 const dashboardRoutes: Routes = [
@@ -22,6 +23,7 @@ const dashboardRoutes: Routes = [
       },
       {
         path: 'cursos', // /dashboard/cursos
+        canActivate:[adminGuard],
         loadChildren: () =>
               import('./pages/cursos/cursos.module').then(
                 (m) => m.CursosModule
@@ -29,9 +31,18 @@ const dashboardRoutes: Routes = [
       },
       {
         path: 'clases', // /dashboard/clases
+        canActivate:[adminGuard],
         loadChildren: () =>
               import('./pages/clases/clases.module').then(
                 (m) => m.ClasesModule
+              ),
+      },
+      {
+        path: 'usuarios', // /dashboard/usuarios
+        canActivate:[adminGuard],
+        loadChildren: () =>
+              import('./pages/usuarios/usuarios.module').then(
+                (m) => m.UsuariosModule
               ),
       }
     ]

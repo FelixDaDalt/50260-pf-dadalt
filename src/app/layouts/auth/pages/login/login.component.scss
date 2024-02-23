@@ -1,0 +1,17 @@
+.example-card {
+  max-width: 30%;
+  background-color: grey;
+
+}
+
+.full-width{
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Toma el 100% del alto de la ventana */
+  background-color: black;
+}

@@ -1,57 +1,60 @@
-<form [formGroup]="formulario">
-  <div class="grid">
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Nombre</mat-label>
-        <input type="text" matInput placeholder="Nombre" formControlName="nombre">
-        <mat-error *ngIf="formulario.get('nombre')?.hasError('required') && formulario.get('nombre')?.touched">El nombre es requerido</mat-error>
-      </mat-form-field>
+<div class="table-responsive">
+  <form [formGroup]="formulario">
+    <div class="grid">
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+          <mat-error *ngIf="formulario.get('nombre')?.hasError('required') && formulario.get('nombre')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
 
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Apellido</mat-label>
+          <input type="text" matInput placeholder="Apellido" formControlName="apellido">
+          <mat-error *ngIf="formulario.get('apellido')?.hasError('required')">El apellido es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>DNI</mat-label>
+          <input type="number" matInput placeholder="DNI" formControlName="documento">
+          <mat-error *ngIf="formulario.get('documento')?.hasError('required')">El DNI es requerido</mat-error>
+          <mat-error *ngIf="formulario.get('documento')?.hasError('min')">El DNI debe contener 8 digitos</mat-error>
+          <mat-error *ngIf="formulario.get('documento')?.hasError('pattern')">El DNI debe contener solo números</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Telefono</mat-label>
+          <input type="number" matInput placeholder="Telefono" formControlName="telefono">
+          <mat-error *ngIf="formulario.get('nombre')?.hasError('pattern')">El teléfono debe contener solo números</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Direccion</mat-label>
+          <input type="text" matInput placeholder="Direccion" formControlName="direccion">
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Cursos</mat-label>
+          <mat-select formControlName="curso_id">
+              <mat-option [value]="">Ninguno</mat-option>
+              <mat-option *ngFor="let curso of cursos" [value]="curso.id">{{curso.nombre}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Apellido</mat-label>
-        <input type="text" matInput placeholder="Apellido" formControlName="apellido">
-        <mat-error *ngIf="formulario.get('nombre')?.hasError('required')">El apellido es requerido</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>DNI</mat-label>
-        <input type="number" matInput placeholder="DNI" formControlName="documento">
-        <mat-error *ngIf="formulario.get('documento')?.hasError('required')">El DNI es requerido</mat-error>
-        <mat-error *ngIf="formulario.get('documento')?.hasError('min')">El DNI debe contener 8 digitos</mat-error>
-        <mat-error *ngIf="formulario.get('documento')?.hasError('pattern')">El DNI debe contener solo números</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Telefono</mat-label>
-        <input type="number" matInput placeholder="Telefono" formControlName="telefono">
-        <mat-error *ngIf="formulario.get('nombre')?.hasError('pattern')">El teléfono debe contener solo números</mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Direccion</mat-label>
-        <input type="text" matInput placeholder="Direccion" formControlName="direccion">
-      </mat-form-field>
-    </div>
-    <div class="col-4">
-      <mat-form-field class="full-width">
-        <mat-label>Curso</mat-label>
-        <mat-select formControlName="curso">
-            <mat-option *ngFor="let curso of cursos" [value]="curso">{{curso.nombre}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <button mat-fab extended class="button-add" [disabled]="!formulario.valid" (click)="enviar()">
-    <mat-icon>{{ actualizarAlumno ? 'manage_accounts' : 'person_add' }}</mat-icon>
-    {{ actualizarAlumno ? 'Modificar' : 'Alta' }}
-  </button>
-  <button mat-fab extended class="button-cancel ml-2" *ngIf="actualizarAlumno" (click)="cancelar()" >
-    <mat-icon>cancel</mat-icon>
-    Cancelar
-  </button>
-</form>
+    <button mat-fab extended class="button-add" [disabled]="!formulario.valid" (click)="enviar()">
+      <mat-icon>{{ actualizarAlumno ? 'manage_accounts' : 'person_add' }}</mat-icon>
+      {{ actualizarAlumno ? 'Modificar' : 'Alta' }}
+    </button>
+    <button mat-fab extended class="button-cancel ml-2" *ngIf="actualizarAlumno" (click)="cancelar()" >
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+  </form>
+</div>

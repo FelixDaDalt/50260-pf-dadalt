@@ -13,18 +13,18 @@ import { Router } from '@angular/router';
 })
 export class CursosComponent {
 
-  displayedColumns: string[] = ['id','Nombre','Alumnos','#'];
+  displayedColumns: string[] = ['id','Nombre','Alumnos','Clases','#'];
   cursos= new MatTableDataSource<curso>([]);
   cursoActualizar!:curso|null
 
   constructor(private cursosService:CursosService,
     public dialog: MatDialog,
     private router:Router){
-    this.obtenerCursos()
+    this.suscripcionCursos()
   }
 
-  private obtenerCursos(){
-    this.cursosService.obtenerCursos().subscribe({
+  private suscripcionCursos(){
+    this.cursosService.suscripcionCursos().subscribe({
       next:(cursos)=>{
         this.cursos.data = cursos
         this.cursos._updateChangeSubscription()
@@ -32,11 +32,12 @@ export class CursosComponent {
     })
   }
 
+
+
   enviarCurso(event:curso):void{
     if(event)
     {
       if(this.cursoActualizar){
-
         this.modificarCurso(event)
         this.cursoActualizar = null
         return
@@ -48,12 +49,7 @@ export class CursosComponent {
 
 
   eliminarCurso(curso:curso):void{
-    if(curso.alumnos.length > 0){
-      const dialogRef = this.dialog.open(DialogComponent, {
-        data: {titulo: 'Error', contenido: 'No se puede eliminar '+curso.nombre+' porque posee alumnos.'},
-      });
-      return;
-    }
+
     this.cursosService.borrarCurso(curso)
   }
 

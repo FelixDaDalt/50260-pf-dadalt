@@ -1,7 +1,10 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Menu } from './modelos/menu';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs';
+import { usuario } from '../auth/modelos/usuario';
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -16,9 +19,18 @@ interface ExampleFlatNode {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
+
+  title = 'Gestion Alumnos';
+
   showFiller = false;
   menu: Menu[] = [
+    {
+      nombre: 'Usuarios',
+      icono:'supervised_user_circle',
+      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
+      enlace:'usuarios'
+    },
     {
       nombre: 'Clases',
       icono:'dashboard',
@@ -62,13 +74,24 @@ export class DashboardComponent {
   );
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  usuario$?:Observable<usuario | null>
 
-  constructor() {
+  constructor(private authService:AuthService) {  }
+
+  ngOnInit(): void {
     this.dataSource.data = this.menu;
+    this.obtenerUsuario()
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
+  logout(){
+    this.authService.logout()
+  }
+
+  private obtenerUsuario(){
+    this.usuario$ = this.authService.obtenerUsuario()
+  }
 }
 
 

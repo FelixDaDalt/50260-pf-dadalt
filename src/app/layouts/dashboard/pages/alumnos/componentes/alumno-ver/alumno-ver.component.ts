@@ -10,14 +10,12 @@ import { Alumno } from '../../modelos/alumno';
 })
 export class AlumnoVerComponent {
 
-  alumno?:Alumno
+  alumno?:Alumno | null
 
   constructor(private activatedRoute: ActivatedRoute, private alumnosService:AlumnosService,private router:Router) {
     const alumnoId = this.activatedRoute.snapshot.params['id']
     if(alumnoId){
       this.buscarAlumno(alumnoId)
-    }else{
-      this.redireccionar()
     }
   }
 
@@ -32,5 +30,17 @@ export class AlumnoVerComponent {
 
   redireccionar(){
     this.router.navigate(['dashboard','alumnos'])
+  }
+
+  volver(){
+    this.alumno = null
+    this.router.navigate(['dashboard','alumnos'])
+  }
+
+  verCurso(idCurso?: string | null) {
+    if (idCurso !== null && idCurso !== undefined) {
+      console.log(idCurso)
+      this.router.navigate(['dashboard', 'cursos', 'ver', idCurso]);
+    }
   }
 }

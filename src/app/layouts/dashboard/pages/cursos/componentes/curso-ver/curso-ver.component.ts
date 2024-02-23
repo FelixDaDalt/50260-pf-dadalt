@@ -9,7 +9,7 @@ import { CursosService } from '../../cursos.service';
   styleUrl: './curso-ver.component.scss'
 })
 export class CursoVerComponent {
-  curso?:curso
+  curso?:curso | null
 
   constructor(private activatedRoute: ActivatedRoute, private cursoService:CursosService,private router:Router) {
     const cursoId = this.activatedRoute.snapshot.params['id']
@@ -31,5 +31,27 @@ export class CursoVerComponent {
 
   redireccionar(){
     this.router.navigate(['dashboard','cursos'])
+  }
+
+  volver(){
+    this.curso = null
+    this.router.navigate(['dashboard','cursos'])
+  }
+
+  verAlumno(idAlumno?:string | null){
+    if(!!idAlumno)
+      this.router.navigate(['dashboard','alumnos','ver',idAlumno])
+  }
+
+  verClase(idClase?:string | null){
+    if(!!idClase)
+      this.router.navigate(['dashboard','clases','ver',idClase])
+  }
+
+  borrarAlumno(indice:number){
+    if(this.curso){
+      this.curso.alumnos_id.splice(indice, 1);
+      this.cursoService.actualizarCursos(this.curso)
+    }
   }
 }

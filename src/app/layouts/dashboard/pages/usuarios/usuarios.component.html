@@ -1,0 +1,54 @@
+<h1 appTitulo>Usuarios</h1>
+<hr>
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{usuarioActualizar?'Modificar Usuario':'Alta de Usuario'}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-usuario-formulario (nuevoUsuario)="enviarUsuario($event)" [actualizarUsuario]="usuarioActualizar"></app-usuario-formulario>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="pt-5 table-responsive">
+  <table mat-table [dataSource]="usuarios" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let usuario"> {{usuario.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Usuario</th>
+      <td mat-cell *matCellDef="let usuario"> {{usuario.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="password">
+      <th mat-header-cell *matHeaderCellDef> Passwors </th>
+      <td mat-cell *matCellDef="let usuario"> {{usuario.password}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rol">
+      <th mat-header-cell *matHeaderCellDef> Rol </th>
+      <td mat-cell *matCellDef="let usuario"> {{usuario.rol.rol}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="#">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td *matCellDef="let usuario">
+        <button mat-icon-button color="primary" (click)="actualizarUsuario(usuario)">
+          <mat-icon>manage_accounts</mat-icon>
+        </button>
+        <button mat-icon-button class="button-remove" (click)="eliminarUsuario(usuario)">
+          <mat-icon>person_remove</mat-icon>
+        </button>
+        <button mat-icon-button class="secondary" (click)="verUsuario(usuario)">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

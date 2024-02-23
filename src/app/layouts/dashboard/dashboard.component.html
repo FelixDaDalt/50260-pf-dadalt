@@ -12,22 +12,34 @@
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-          <button mat-icon-button matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.name" >
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button>
-          <mat-icon  [routerLink]="[node.enlace]">{{node.icono}}</mat-icon>-<span [routerLink]="[node.enlace]">{{node.name}}</span>
+            <!-- SI QUISIERAMOS EXPANDIR LOS NODOS
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name" >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            -->
+          <mat-icon class="pointer" [routerLink]="[node.enlace]">{{node.icono}}</mat-icon>-<span class="pointer" [routerLink]="[node.enlace]">{{node.name}}</span>
         </mat-tree-node>
+
       </mat-tree>
+
     </mat-drawer>
 
     <mat-toolbar>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
           <mat-icon >menu</mat-icon>
         </button>
+        <span>{{title}}</span>
         <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>person_pin</mat-icon>
+        </button>
+        <span>{{(usuario$ | async)?.username}}</span>
+        <button mat-icon-button class="example-icon" color="warn" aria-label="Example icon-button with share icon" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
       </mat-toolbar>
 
         <div class="example-sidenav-content">

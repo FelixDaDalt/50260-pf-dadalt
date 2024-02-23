@@ -12,11 +12,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { SlicePipe } from './pipes/slice.pipe';
+import {MatCardModule} from '@angular/material/card';
+import { CursoPipe } from './pipes/curso.pipe';
+import { ClasePipe } from './pipes/clase.pipe';
+import { AlumnoPipe } from './pipes/alumno.pipe';
+
 
 
 
 @NgModule({
-  declarations: [NombreCompletoPipe, TituloDirective, DialogComponent, SlicePipe],
+  declarations: [NombreCompletoPipe, CursoPipe, ClasePipe, TituloDirective, DialogComponent, SlicePipe, ClasePipe, AlumnoPipe],
   imports: [
     CommonModule,
     MatDialogTitle,
@@ -30,8 +35,12 @@ import { SlicePipe } from './pipes/slice.pipe';
     MatSelectModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatCardModule
   ],
   exports:[
+  AlumnoPipe,
+  ClasePipe,
+  CursoPipe,
   NombreCompletoPipe,
   TituloDirective,
   SlicePipe,
@@ -45,6 +54,7 @@ import { SlicePipe } from './pipes/slice.pipe';
   MatInputModule,
   MatSelectModule,
   ReactiveFormsModule,
-  MatIconModule]
+  MatIconModule,
+  MatCardModule]
 })
 export class CompartidosModule { }

@@ -1,17 +1,20 @@
 <h1 appTitulo>Alumnos</h1>
 <hr>
-<mat-accordion>
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{alumnoActualizar?'Modificar Alumno':'Alta de Alumno'}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <app-alumno-formulario (nuevoAlumno)="enviarAlumno($event)" [actualizarAlumno]="alumnoActualizar"></app-alumno-formulario>
-  </mat-expansion-panel>
-</mat-accordion>
 
-<div class="pt-5">
+<mat-accordion>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{alumnoActualizar?'Modificar Alumno':'Alta de Alumno'}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-alumno-formulario (nuevoAlumno)="enviarAlumno($event)" [actualizarAlumno]="alumnoActualizar"></app-alumno-formulario>
+    </mat-expansion-panel>
+
+  </mat-accordion>
+
+<div class="pt-5 table-responsive">
   <table mat-table [dataSource]="alumnos" class="mat-elevation-z8">
 
     <ng-container matColumnDef="id">
@@ -26,12 +29,12 @@
 
     <ng-container matColumnDef="DNI">
       <th mat-header-cell *matHeaderCellDef> DNI </th>
-      <td mat-cell *matCellDef="let alumno"> {{alumno.dni}} </td>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.documento}} </td>
     </ng-container>
 
     <ng-container matColumnDef="curso">
       <th mat-header-cell *matHeaderCellDef> Curso </th>
-      <td mat-cell *matCellDef="let alumno"> {{alumno.curso.nombre | uppercase}} </td>
+      <td mat-cell *matCellDef="let alumno"> {{alumno.curso_id | curso:'nombre'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="#">

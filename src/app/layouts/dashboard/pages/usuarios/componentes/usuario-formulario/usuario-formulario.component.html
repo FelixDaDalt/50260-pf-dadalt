@@ -1,0 +1,37 @@
+<div class="table-responsive">
+  <form [formGroup]="formulario">
+    <div class="grid">
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Nombre de usuario</mat-label>
+          <input type="text" matInput placeholder="username" formControlName="username">
+          <mat-error *ngIf="formulario.get('username')?.hasError('required') && formulario.get('username')?.touched">El username es requerido</mat-error>
+        </mat-form-field>
+
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input type="text" matInput placeholder="password" formControlName="password">
+          <mat-error *ngIf="formulario.get('password')?.hasError('required')">El password es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="rol" [compareWith]="compareRoles">
+            <mat-option *ngFor="let rol of roles" [value]="rol">{{rol.rol}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-fab extended class="button-add" [disabled]="!formulario.valid" (click)="enviar()">
+      <mat-icon>{{ actualizarUsuario ? 'manage_accounts' : 'person_add' }}</mat-icon>
+      {{ actualizarUsuario ? 'Modificar' : 'Alta' }}
+    </button>
+    <button mat-fab extended class="button-cancel ml-2" *ngIf="actualizarUsuario" (click)="cancelar()" >
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+  </form>
+</div>

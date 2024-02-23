@@ -1,0 +1,27 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-6 {
+  width: 50%; /* Cada columna ocupa el 50% del ancho del contenedor */
+  box-sizing: border-box; /* Incluye el padding y el border en el ancho */
+}
+
+.square {
+  width: 100%; /* Ocupa el 100% del ancho de su contenedor */
+  height: 0; /* Altura inicial 0 */
+  padding-top: 50%; /* Establece la altura igual al ancho para crear un cuadrado */
+  position: relative; /* Establece el contexto de posición para los elementos hijos */
+}
+
+.img-fluid {
+  position: absolute; /* Posiciona la imagen de manera absoluta */
+  width: auto; /* La imagen se ajustará automáticamente al ancho del cuadrado */
+  height: auto; /* La imagen se ajustará automáticamente a la altura del cuadrado */
+  max-width: 100%; /* Evita que la imagen se salga del cuadrado */
+  max-height: 100%; /* Evita que la imagen se salga del cuadrado */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Centra completamente */
+}

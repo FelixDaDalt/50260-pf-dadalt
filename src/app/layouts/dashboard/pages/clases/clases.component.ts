@@ -5,6 +5,7 @@ import { ClasesService } from './clases.service';
 import { Router } from '@angular/router';
 import { DialogComponent } from '../../../../compartidos/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CursosService } from '../cursos/cursos.service';
 
 @Component({
   selector: 'app-clases',
@@ -12,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './clases.component.scss'
 })
 export class ClasesComponent {
-  displayedColumns: string[] = ['id','Nombre','DiaCursada','HoraInicio','HoraFin','FechaInicio','FechaFin', 'Docente','#'];
+  displayedColumns: string[] = ['id','Nombre','DiaCursada','HoraInicio','HoraFin','FechaInicio','FechaFin', 'Docente', 'Cursos', '#'];
   clases= new MatTableDataSource<clase>([]);
   claseActualizar!:clase|null
 
@@ -24,7 +25,7 @@ export class ClasesComponent {
 
 
   private obtenerClases(){
-    this.claseService.obtenerClases().subscribe({
+    this.claseService.suscripcionClases().subscribe({
       next:(clases)=>{
         this.clases.data = clases
         this.clases._updateChangeSubscription()
@@ -55,7 +56,7 @@ export class ClasesComponent {
   }
 
   eliminarClase(clase:clase):void{
-    if(clase.curso.length > 0){
+    if(clase.curso_id){
       const dialogRef = this.dialog.open(DialogComponent, {
         data: {titulo: 'Error', contenido: 'No se puede eliminar '+clase.nombre+' porque esta asignada a cursos.'},
       });
@@ -77,4 +78,6 @@ export class ClasesComponent {
         clase.id,
       ])
   }
+
+
 }

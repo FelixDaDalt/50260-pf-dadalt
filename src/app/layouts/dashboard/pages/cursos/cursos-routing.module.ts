@@ -9,6 +9,10 @@ const routes: Routes = [
     component: CursosComponent,
   },
   {
+    path: 'ver',
+    component: CursosComponent,
+  },
+  {
 
     path: 'ver/:id',
     component: CursoVerComponent,

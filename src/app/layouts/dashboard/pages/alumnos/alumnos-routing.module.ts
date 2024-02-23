@@ -9,6 +9,11 @@ const routes: Routes = [
     component: AlumnosComponent,
   },
   {
+    path: 'ver',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
     path: 'ver/:id',
     component: AlumnoVerComponent,
   },

@@ -21,14 +21,12 @@ export class AlumnoFormularioComponent implements OnChanges {
 
   constructor(private fb:FormBuilder, private cursosService:CursosService){
       this.formulario = this.fb.group({
-      id:[],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      documento: ['', [Validators.required, Validators.pattern('^[0-9]*$')], Validators.min(8)],
+      documento: ['', [Validators.required, Validators.pattern('^[0-9]*$'),Validators.min(8)]],
       telefono: ['', [Validators.pattern('^[0-9]*$')]],
       direccion:[''],
-
-      curso: ['',Validators.required],
+      curso_id: [''],
     });
 
     this.obtenerCursos()
@@ -42,7 +40,7 @@ export class AlumnoFormularioComponent implements OnChanges {
   }
 
   private obtenerCursos(){
-    this.cursosService.obtenerCursos().subscribe({
+    this.cursosService.suscripcionCursos().subscribe({
       next:(cursos)=>{
         this.cursos = cursos
       }
@@ -50,7 +48,10 @@ export class AlumnoFormularioComponent implements OnChanges {
   }
 
   enviar(){
-    const nuevoAlumno = this.formulario.value
+    let nuevoAlumno = this.formulario.value
+    if(this.actualizarAlumno){
+      nuevoAlumno.id= this.actualizarAlumno.id
+    }
     this.nuevoAlumno.emit(nuevoAlumno)
     this.formulario.reset()
   }

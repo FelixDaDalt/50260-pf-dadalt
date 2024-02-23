@@ -10,6 +10,10 @@ const routes: Routes = [
     component: ClasesComponent,
   },
   {
+    path: 'ver',
+    component: ClasesVerComponent,
+  },
+  {
     path: 'ver/:id',
     component: ClasesVerComponent,
   },

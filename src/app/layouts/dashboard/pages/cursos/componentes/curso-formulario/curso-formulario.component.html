@@ -1,29 +1,31 @@
-<form [formGroup]="formulario">
-  <div class="grid">
-    <div class="col-6">
-      <mat-form-field class="full-width">
-        <mat-label>Nombre</mat-label>
-        <input type="text" matInput placeholder="Nombre" formControlName="nombre">
-        <mat-error *ngIf="formulario.get('nombre')?.hasError('required') && formulario.get('nombre')?.touched">El nombre es requerido</mat-error>
-      </mat-form-field>
+<div class="table-responsive">
+  <form [formGroup]="formulario">
+    <div class="grid">
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput placeholder="Nombre" formControlName="nombre">
+          <mat-error *ngIf="formulario.get('nombre')?.hasError('required') && formulario.get('nombre')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Clases</mat-label>
+          <mat-select  formControlName='clases_id' multiple>
+              <mat-option *ngFor="let clase of clases" [value]="clase.id">({{clase.horaInicio}} - {{clase.horaFin}}) - {{clase.nombre}} - {{clase.docente}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="formulario.get('clases')?.hasError('required')">Indique las clases que pertenecen al curso</mat-error>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="col-6">
-      <mat-form-field class="full-width">
-        <mat-label>Clases</mat-label>
-        <mat-select  formControlName='clases' multiple>
-            <mat-option *ngFor="let clase of clases" [value]="clase">({{clase.horaInicio}} - {{clase.horaFin}}) - {{clase.nombre}} - {{clase.docente}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="formulario.get('clases')?.hasError('required')">Indique las clases que pertenecen al curso</mat-error>
-      </mat-form-field>
-    </div>
-  </div>
-  <button mat-fab extended class="button-add" [disabled]="!formulario.valid" (click)="enviar()">
-    <mat-icon>{{ actualizarCurso ? 'manage_accounts' : 'person_add' }}</mat-icon>
-    {{ actualizarCurso ? 'Modificar' : 'Alta' }}
-  </button>
-  <button mat-fab extended class="button-cancel ml-2" *ngIf="actualizarCurso" (click)="cancelar()" >
-    <mat-icon>cancel</mat-icon>
-    Cancelar
-  </button>
-</form>
+    <button mat-fab extended class="button-add" [disabled]="!formulario.valid" (click)="enviar()">
+      <mat-icon>{{ actualizarCurso ? 'manage_accounts' : 'person_add' }}</mat-icon>
+      {{ actualizarCurso ? 'Modificar' : 'Alta' }}
+    </button>
+    <button mat-fab extended class="button-cancel ml-2" *ngIf="actualizarCurso" (click)="cancelar()" >
+      <mat-icon>cancel</mat-icon>
+      Cancelar
+    </button>
+  </form>
+</div>
 

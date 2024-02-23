@@ -4,6 +4,7 @@ import { clase } from "../../clases/modelos/clase";
 export interface curso{
   id:string;
   nombre:string;
-  alumnos:Alumno[];
-  clases:clase[]
+  alumnos_id:string[];
+  clases_id:string[]
+  delete?: boolean;
 }

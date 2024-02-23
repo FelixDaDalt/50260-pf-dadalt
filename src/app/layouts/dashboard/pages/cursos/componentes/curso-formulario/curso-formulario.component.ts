@@ -20,10 +20,9 @@ export class CursoFormularioComponent {
 
   constructor(private fb:FormBuilder, private clasesService:ClasesService){
       this.formulario = this.fb.group({
-      id:[],
       nombre: ['', Validators.required],
-      clases:['',Validators.required],
-      alumnos: [],
+      clases_id:[[],Validators.required],
+      alumnos_id: [[]],
     });
 
     this.obtenerClases()
@@ -37,7 +36,7 @@ export class CursoFormularioComponent {
   }
 
   private obtenerClases(){
-    this.clasesService.obtenerClases().subscribe({
+    this.clasesService.suscripcionClases().subscribe({
       next:(clases)=>{
         this.clases = clases
       }
@@ -46,12 +45,15 @@ export class CursoFormularioComponent {
 
   enviar(){
     const nuevoCurso = this.formulario.value
+    if(this.actualizarCurso){
+      nuevoCurso.id= this.actualizarCurso.id
+    }
     this.nuevoCurso.emit(nuevoCurso)
-    this.formulario.reset()
+    this.formulario.reset({alumnos: []})
   }
 
   cancelar(){
     this.formulario.reset()
-    this.nuevoCurso.emit()
+    this.nuevoCurso.emit({alumnos: []})
   }
 }

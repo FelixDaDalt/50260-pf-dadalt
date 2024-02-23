@@ -10,5 +10,5 @@ export interface clase{
   fechaInicio:Date;
   fechaFin:Date;
   docente:string;
-  curso:curso[]
+  curso_id:string | null
 }
