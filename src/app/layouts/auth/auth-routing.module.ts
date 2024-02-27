@@ -5,11 +5,11 @@ import { LoginComponent } from './pages/login/login.component';
 
 const authRoutes: Routes = [
   {
-    path: '', // /dashboard
+    path: '',
     component: LoginComponent,
     children: [
       {
-        path: 'login', // /dashboard/home (si no hay nada después de /)
+        path: 'login',
         component: LoginComponent,
       },
     ]

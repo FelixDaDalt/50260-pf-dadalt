@@ -7,29 +7,29 @@ import { adminGuard } from '../../core/guards/admin.guard';
 
 const dashboardRoutes: Routes = [
   {
-    path: '', // /dashboard
+    path: '',
     component: DashboardComponent,
     children: [
       {
-        path: '', // /dashboard/home (si no hay nada después de /)
+        path: '',
         component: HomeComponent,
       },
       {
-        path: 'alumnos', // /dashboard/alumnos
+        path: 'alumnos',
         loadChildren: () =>
               import('./pages/alumnos/alumnos.module').then(
                 (m) => m.AlumnosModule
               ),
       },
       {
-        path: 'cursos', // /dashboard/cursos
+        path: 'cursos',
         loadChildren: () =>
               import('./pages/cursos/cursos.module').then(
                 (m) => m.CursosModule
               ),
       },
       {
-        path: 'usuarios', // /dashboard/usuarios
+        path: 'usuarios',
         canActivate:[adminGuard],
         loadChildren: () =>
               import('./pages/usuarios/usuarios.module').then(
@@ -37,7 +37,7 @@ const dashboardRoutes: Routes = [
               ),
       },
       {
-        path: 'Inscripciones', // /dashboard/usuarios
+        path: 'Inscripciones',
         loadChildren: () =>
               import('./pages/inscripciones/inscripciones.module').then(
                 (m) => m.InscripcionesModule

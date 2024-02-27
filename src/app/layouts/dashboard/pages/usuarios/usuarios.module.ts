@@ -11,7 +11,7 @@ import { UsuarioFormularioComponent } from './componentes/usuario-formulario/usu
   declarations: [
     UsuariosComponent,
     UsuarioFormularioComponent
-    //AlumnoVerComponent
+
   ],
   imports: [
     CommonModule,

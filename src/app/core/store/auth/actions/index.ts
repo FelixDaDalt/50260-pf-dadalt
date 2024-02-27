@@ -3,7 +3,7 @@ import { usuario } from "../../../../layouts/auth/modelos/usuario";
 
 export const usuarioAuth = createActionGroup(
   {
-    source:'usuarioAuth', //Nombre del conjunto de Acciones
+    source:'usuarioAuth',
     events:{
       'establecer': props<{usuario:usuario}>(),
       'eliminar': emptyProps()
