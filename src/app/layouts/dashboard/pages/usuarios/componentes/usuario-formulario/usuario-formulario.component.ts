@@ -29,9 +29,7 @@ export class UsuarioFormularioComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['actualizarUsuario'] && this.actualizarUsuario) {
-
       this.formulario.patchValue(this.actualizarUsuario);
-      console.log(this.formulario.value)
     }
   }
 
