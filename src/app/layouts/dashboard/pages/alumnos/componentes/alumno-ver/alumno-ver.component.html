@@ -19,12 +19,21 @@
                 <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
                   style="background-color: #efefef;">
                   <div>
+
                     <p class="small text-muted mb-1">Curso</p>
-                    <p class="mb-0 pointer" (click)="verCurso(alumno?.curso_id)">{{alumno?(alumno.curso_id|curso:'nombre'):''}}</p>
+                    <div *ngFor="let inscripcion of inscripciones$ | async">
+                      <div style="display: flex; align-items: center;">
+                        <p class="mb-0 pointer" (click)="verCurso(inscripcion?.cursoId)">
+                          {{inscripcion.curso?.nombre}}
+                        </p>
+                        <mat-icon (click)="eliminarInscripcion(inscripcion.id)" style="cursor: pointer;">delete_forever</mat-icon>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
                 <div class="d-flex pt-1">
-                  <button type="button" class="btn btn-outline-primary me-1 flex-grow-1" (click)="volver()">Volver a Alumnos</button>
+                  <button type="button" class="btn btn-outline-primary me-1 flex-grow-1" (click)="volver()">Volver</button>
                 </div>
               </div>
             </div>

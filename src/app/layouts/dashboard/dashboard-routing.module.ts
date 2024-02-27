@@ -23,18 +23,9 @@ const dashboardRoutes: Routes = [
       },
       {
         path: 'cursos', // /dashboard/cursos
-        canActivate:[adminGuard],
         loadChildren: () =>
               import('./pages/cursos/cursos.module').then(
                 (m) => m.CursosModule
-              ),
-      },
-      {
-        path: 'clases', // /dashboard/clases
-        canActivate:[adminGuard],
-        loadChildren: () =>
-              import('./pages/clases/clases.module').then(
-                (m) => m.ClasesModule
               ),
       },
       {
@@ -43,6 +34,13 @@ const dashboardRoutes: Routes = [
         loadChildren: () =>
               import('./pages/usuarios/usuarios.module').then(
                 (m) => m.UsuariosModule
+              ),
+      },
+      {
+        path: 'Inscripciones', // /dashboard/usuarios
+        loadChildren: () =>
+              import('./pages/inscripciones/inscripciones.module').then(
+                (m) => m.InscripcionesModule
               ),
       }
     ]

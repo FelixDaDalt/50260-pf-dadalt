@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { curso } from '../../modelos/curso';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CursosService } from '../../cursos.service';
+import { inscripcion } from '../../../inscripciones/modelo/inscripcion';
+import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-curso-ver',
@@ -10,8 +13,12 @@ import { CursosService } from '../../cursos.service';
 })
 export class CursoVerComponent {
   curso?:curso | null
+  inscripciones$?:Observable<inscripcion[]>
 
-  constructor(private activatedRoute: ActivatedRoute, private cursoService:CursosService,private router:Router) {
+  constructor(private activatedRoute: ActivatedRoute,
+    private cursoService:CursosService,
+    private router:Router,
+    private location: Location) {
     const cursoId = this.activatedRoute.snapshot.params['id']
     if(cursoId){
       this.buscarCurso(cursoId)
@@ -21,12 +28,21 @@ export class CursoVerComponent {
   }
 
   buscarCurso(cursoId:string){
-    const curso = this.cursoService.buscarCurso(cursoId)
-    if(curso){
-      this.curso = curso
-    }else{
-      this.redireccionar()
-    }
+    this.cursoService.buscarCurso(cursoId).subscribe({
+      next:(curso)=>{
+        if(curso.length>0){
+          this.curso = curso[0]
+          this.buscarAlumnos()
+        }else{
+          this.redireccionar()
+        }
+      }
+    })
+  }
+
+  buscarAlumnos(){
+  if(this.curso?.id)
+        this.inscripciones$ = this.cursoService.buscarAlumnoCurso(this.curso.id)
   }
 
   redireccionar(){
@@ -35,7 +51,7 @@ export class CursoVerComponent {
 
   volver(){
     this.curso = null
-    this.router.navigate(['dashboard','cursos'])
+    this.location.back();
   }
 
   verAlumno(idAlumno?:string | null){
@@ -43,15 +59,13 @@ export class CursoVerComponent {
       this.router.navigate(['dashboard','alumnos','ver',idAlumno])
   }
 
-  verClase(idClase?:string | null){
-    if(!!idClase)
-      this.router.navigate(['dashboard','clases','ver',idClase])
+  eliminarInscripcion(idInscripcion:string){
+    this.cursoService.eliminarInscripcion(idInscripcion).subscribe({
+      next:(respuesta)=>{
+        this.buscarAlumnos()
+      }
+    })
   }
 
-  borrarAlumno(indice:number){
-    if(this.curso){
-      this.curso.alumnos_id.splice(indice, 1);
-      this.cursoService.actualizarCursos(this.curso)
-    }
-  }
+
 }

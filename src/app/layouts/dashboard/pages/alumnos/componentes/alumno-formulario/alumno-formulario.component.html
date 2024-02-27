@@ -25,26 +25,17 @@
           <mat-error *ngIf="formulario.get('documento')?.hasError('pattern')">El DNI debe contener solo números</mat-error>
         </mat-form-field>
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <mat-form-field class="full-width">
           <mat-label>Telefono</mat-label>
           <input type="number" matInput placeholder="Telefono" formControlName="telefono">
           <mat-error *ngIf="formulario.get('nombre')?.hasError('pattern')">El teléfono debe contener solo números</mat-error>
         </mat-form-field>
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <mat-form-field class="full-width">
           <mat-label>Direccion</mat-label>
           <input type="text" matInput placeholder="Direccion" formControlName="direccion">
-        </mat-form-field>
-      </div>
-      <div class="col-4">
-        <mat-form-field class="full-width">
-          <mat-label>Cursos</mat-label>
-          <mat-select formControlName="curso_id">
-              <mat-option [value]="">Ninguno</mat-option>
-              <mat-option *ngFor="let curso of cursos" [value]="curso.id">{{curso.nombre}}</mat-option>
-          </mat-select>
         </mat-form-field>
       </div>
     </div>

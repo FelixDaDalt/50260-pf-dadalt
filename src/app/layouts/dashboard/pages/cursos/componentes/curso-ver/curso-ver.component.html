@@ -13,24 +13,25 @@
               </div>
               <div class="flex-grow-1 ms-3">
                 <h2 class="mb-1">{{curso?curso.nombre : '' }}</h2>
+                <p class="mb-0" style="color: #2b2a2a;"><mat-icon> person_pin</mat-icon> {{ curso ? curso.profesor : '' }}</p>
+                <p class="mb-0" style="color: #2b2a2a;"><mat-icon>access_time</mat-icon> {{ curso ? 'Desde las: '+ curso.horaInicio + 'hs. a las: ' + curso.horaFin + 'hs.' : '' }}</p>
+                <p class="mb-0" style="color: #2b2a2a;"><mat-icon> date_range</mat-icon> {{ curso ? 'Desde el: '+ curso.fechaInicio + ' al: ' + curso.fechaFin : '' }}</p>
                 <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
                   style="background-color: #efefef;">
                   <div>
                     <p class="small text-muted mb-1">Alumnos</p>
-                    <p class="mb-0" *ngIf="curso?.alumnos_id?.length == 0">Sin Asignacion</p>
-                    <p class="mb-0 pointer" *ngFor="let alumno_id of curso?.alumnos_id; let i = index" (click)="verAlumno(alumno_id)"><i class="bi bi-x-circle-fill text-danger mr-2" (click)="borrarAlumno(i)"></i>{{alumno_id |alumno:'nombreCompleto'}}</p>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
-                  style="background-color: #efefef;">
-                  <div>
-                    <p class="small text-muted mb-1">Clases</p>
-                    <p class="mb-0" *ngIf="curso?.clases_id?.length == 0">Sin Asignacion</p>
-                    <p class="mb-0 pointer" *ngFor="let clase_id of curso?.clases_id" (click)="verClase(clase_id)">{{clase_id |clase:'nombre'| async}}</p>
+                    <div *ngFor="let inscripcion of inscripciones$ | async">
+                      <div style="display: flex; align-items: center;">
+                        <p class="mb-0 pointer" (click)="verAlumno(inscripcion?.alumnoId)">
+                          {{inscripcion?.alumno?.apellido + ','+inscripcion.alumno?.nombre}}
+                        </p>
+                        <mat-icon (click)="eliminarInscripcion(inscripcion.id)" style="cursor: pointer;">delete_forever</mat-icon>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex pt-1">
-                  <button type="button" class="btn btn-outline-primary me-1 flex-grow-1" (click)="volver()">Volver a Cursos</button>
+                  <button type="button" class="btn btn-outline-primary me-1 flex-grow-1" (click)="volver()">Volver</button>
                 </div>
               </div>
             </div>

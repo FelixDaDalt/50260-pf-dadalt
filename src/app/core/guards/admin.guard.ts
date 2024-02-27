@@ -4,23 +4,24 @@ import { inject } from '@angular/core';
 import { map, skip } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../compartidos/dialog/dialog.component';
+import { Store } from '@ngrx/store';
+import { selectorUsuario } from '../store/auth/selector';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
-  const authUserService = inject(AuthService)
+  const store = inject(Store)
   const dialog = inject(MatDialog)
-  return authUserService.obtenerUsuario().pipe(
-    map(usuario => {
-      if (usuario && usuario.rol.id == 1) {
-        return true; // Permite la navegación
-      } else if(usuario!=null){
-        const dialogRef = dialog.open(DialogComponent, {
-          data: {titulo: 'Error', contenido: 'No tiene permisos para acceder'},
-        });
-        return router.createUrlTree(['/dashboard', 'alumnos']); // Redirige a otra URL
-      }else{
-        return router.createUrlTree(['/dashboard', 'alumnos']); // Redirige a otra URL
-      }
-    }),
+
+  return store.select(selectorUsuario).pipe(
+    map((usuario)=>{
+     if(usuario?.rol.id==1){
+      return true
+     }else{
+      const dialogRef = dialog.open(DialogComponent, {
+        data: {titulo: 'Error', contenido: 'No tiene permisos para acceder'},
+      });
+      return router.createUrlTree(['/dashboard', 'alumnos'])
+     }
+    })
   )
-};
+}

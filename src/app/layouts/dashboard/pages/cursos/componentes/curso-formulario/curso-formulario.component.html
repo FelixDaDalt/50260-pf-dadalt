@@ -10,11 +10,37 @@
       </div>
       <div class="col-6">
         <mat-form-field class="full-width">
-          <mat-label>Clases</mat-label>
-          <mat-select  formControlName='clases_id' multiple>
-              <mat-option *ngFor="let clase of clases" [value]="clase.id">({{clase.horaInicio}} - {{clase.horaFin}}) - {{clase.nombre}} - {{clase.docente}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="formulario.get('clases')?.hasError('required')">Indique las clases que pertenecen al curso</mat-error>
+          <mat-label>Profesor</mat-label>
+          <input type="text" matInput placeholder="Profesor" formControlName="profesor">
+          <mat-error *ngIf="formulario.get('profesor')?.hasError('required') && formulario.get('profesor')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Hora Inicio</mat-label>
+          <input type="time" matInput formControlName="horaInicio">
+          <mat-error *ngIf="formulario.get('horaInicio')?.hasError('required') && formulario.get('horaInicio')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Hora Fin</mat-label>
+          <input type="time" matInput formControlName="horaFin">
+          <mat-error *ngIf="formulario.get('horaFin')?.hasError('required') && formulario.get('horaFin')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Fecha Inicio</mat-label>
+          <input type="date" matInput formControlName="fechaInicio">
+          <mat-error *ngIf="formulario.get('fechaInicio')?.hasError('required') && formulario.get('fechaInicio')?.touched">El nombre es requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="full-width">
+          <mat-label>Fecha Fin</mat-label>
+          <input type="date" matInput formControlName="fechaFin">
+          <mat-error *ngIf="formulario.get('fechaFin')?.hasError('required') && formulario.get('fechaFin')?.touched">El nombre es requerido</mat-error>
         </mat-form-field>
       </div>
     </div>

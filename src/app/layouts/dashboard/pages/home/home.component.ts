@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { usuario } from '../../../auth/modelos/usuario';
+import { Observable } from 'rxjs';
+import { selectorUsuario } from '../../../../core/store/auth/selector';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
-  constructor(private router:Router){
+  usuario$?:Observable<usuario | null>
 
+  constructor(private router:Router, private store:Store){
+
+  }
+  ngOnInit(): void {
+    this.usuario$ = this.store.select(selectorUsuario)
   }
 
 

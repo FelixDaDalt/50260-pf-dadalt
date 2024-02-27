@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { usuario } from '../../../auth/modelos/usuario';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UsuariosService {
 
   //API
   getUsuarios(){
-    this.httpClient.get<usuario[]>('http://localhost:3000/usuarios').subscribe({
+    this.httpClient.get<usuario[]>(`${environment.apiUrl}/usuarios`).subscribe({
       next:(usuarios)=>{
           this.usuarios = usuarios
           this.usuarios$.next(this.usuarios)
@@ -26,7 +27,7 @@ export class UsuariosService {
   }
 
   postUsuario(usuario:usuario){
-    this.httpClient.post<usuario>('http://localhost:3000/usuarios',usuario).subscribe({
+    this.httpClient.post<usuario>(`${environment.apiUrl}/usuarios`,usuario).subscribe({
       next:(usuarios)=>{
           this.getUsuarios()
       }
@@ -34,7 +35,7 @@ export class UsuariosService {
   }
 
   deleteUsuario(usuario:usuario){
-    this.httpClient.delete<usuario>(`http://localhost:3000/usuarios/${usuario.id}`).subscribe({
+    this.httpClient.delete<usuario>(`${environment.apiUrl}/usuarios/${usuario.id}`).subscribe({
       next:(usuario)=>{
           this.getUsuarios()
       }
@@ -42,7 +43,7 @@ export class UsuariosService {
   }
 
   putUsuario(usuario:usuario){
-    this.httpClient.put<usuario>(`http://localhost:3000/usuarios/${usuario.id}`,usuario).subscribe({
+    this.httpClient.put<usuario>(`${environment.apiUrl}/usuarios/${usuario.id}`,usuario).subscribe({
       next:(usuario)=>{
           this.getUsuarios()
       }

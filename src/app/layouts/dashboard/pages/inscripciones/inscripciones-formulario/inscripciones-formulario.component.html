@@ -1,0 +1,37 @@
+<div class="table-responsive">
+  <form [formGroup]="formulario">
+  <div class="grid">
+    <div class="col-6">
+      <mat-form-field class="full-width">
+        <mat-label>Alumno</mat-label>
+        <mat-select formControlName="alumnoId">
+          <mat-option  *ngFor="let alumno of alumnos$ | async" [value]="alumno.id" >
+            {{alumno.nombre}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formulario.get('alumnoId')?.hasError('required') && formulario.get('alumnoId')?.touched">El alumno es requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-5">
+      <mat-form-field class="full-width">
+        <mat-label>Curso</mat-label>
+        <mat-select formControlName="cursoId">
+          <mat-option  *ngFor="let curso of cursos$ | async" [value]="curso.id">
+            {{curso.nombre}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formulario.get('cursoId')?.hasError('required') && formulario.get('cursoId')?.touched">El Curso es requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-1">
+      <button mat-mini-fab class="button-add" (click)="enviar()" [disabled]="!formulario.valid"><mat-icon>{{ actualizarInscripcion ? 'check_circle_outline' : 'control_point' }}</mat-icon></button>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+
+
+

@@ -8,12 +8,14 @@ import { CompartidosModule } from '../../compartidos/compartidos.module';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatButtonModule} from '@angular/material/button';
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { HomeComponent } from './pages/home/home.component';
 
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     DashboardRoutingModule
   ],
   exports:[
-    DashboardComponent
+    DashboardComponent,
+    HomeComponent
   ]
 })
 export class DashboardModule { }

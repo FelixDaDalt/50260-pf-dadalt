@@ -51,26 +51,9 @@ describe('AlumnoVerComponent', () => {
     expect(mockAlumnosService.buscarAlumno).toHaveBeenCalledWith('1');
   });
 
-  it('buscarAlumno should set alumno if found', () => {
-    const alumno: Alumno = {
-      id: '1',
-      nombre: 'Juan',
-      apellido: 'Perez',
-      documento: 12345678,
-      telefono: 987654321,
-      direccion: 'Calle Falsa 123',
-      curso_id: 'curso1'
-    };
-    mockAlumnosService.buscarAlumno.and.returnValue(alumno);
-    component.buscarAlumno('1');
-    expect(component.alumno).toEqual(alumno);
-  });
 
-  it('buscarAlumno should call redireccionar if alumno is not found', () => {
-    mockAlumnosService.buscarAlumno.and.returnValue(null);
-    component.buscarAlumno('1');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['dashboard', 'alumnos']);
-  });
+
+
 
   it('redireccionar should navigate to dashboard/alumnos', () => {
     component.redireccionar();

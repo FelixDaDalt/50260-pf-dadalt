@@ -24,34 +24,13 @@
       <td mat-cell *matCellDef="let curso"> {{curso.nombre}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="Alumnos">
-      <th mat-header-cell *matHeaderCellDef> Alumnos </th>
-      <td mat-cell *matCellDef="let curso">
-        <span *ngIf="curso.alumnos_id.length == 0">Sin Asignacion</span>
-        <span *ngFor="let alumnoId of curso.alumnos_id; let last = last">
-          {{ alumnoId | alumno:'nombreCompleto' }}
-          <br *ngIf="!last">
-        </span>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="Clases">
-      <th mat-header-cell *matHeaderCellDef> Clases </th>
-      <td mat-cell *matCellDef="let curso">
-        <span *ngFor="let claseId of curso.clases_id; let last = last">
-          {{ claseId | clase:'nombre' | async}}
-          <br *ngIf="!last">
-        </span>
-      </td>
-    </ng-container>
-
     <ng-container matColumnDef="#">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td *matCellDef="let curso">
-        <button mat-icon-button color="primary" (click)="actualizarCurso(curso)">
+        <button mat-icon-button color="primary" (click)="actualizarCurso(curso)" *ngIf="(usuario$ | async)?.rol?.id == 1">
           <mat-icon>manage_accounts</mat-icon>
         </button>
-        <button mat-icon-button class="button-remove" (click)="eliminarCurso(curso)">
+        <button mat-icon-button class="button-remove" (click)="eliminarCurso(curso)" *ngIf="(usuario$ | async)?.rol?.id == 1">
           <mat-icon>person_remove</mat-icon>
         </button>
         <button mat-icon-button class="secondary" (click)="verCurso(curso)">

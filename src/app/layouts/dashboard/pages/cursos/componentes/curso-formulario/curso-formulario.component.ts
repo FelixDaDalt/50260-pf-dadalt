@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { curso } from '../../modelos/curso';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ClasesService } from '../../../clases/clases.service';
-import { clase } from '../../../clases/modelos/clase';
+import {FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-curso-formulario',
@@ -13,20 +13,20 @@ export class CursoFormularioComponent {
 
   formulario!: FormGroup
   niveles=['inicial','primario','secundario','terciario']
-  clases:clase[]=[]
+
 
   @Output() nuevoCurso = new EventEmitter()
   @Input() actualizarCurso!:curso | null
 
-  constructor(private fb:FormBuilder, private clasesService:ClasesService){
+  constructor(private fb:FormBuilder){
       this.formulario = this.fb.group({
       nombre: ['', Validators.required],
-      clases_id:[[],Validators.required],
-      alumnos_id: [[]],
+      profesor: [[], Validators.required],
+      horaInicio: [[], Validators.required],
+      horaFin: [[], Validators.required],
+      fechaInicio: [[], Validators.required],
+      fechaFin: [[], Validators.required],
     });
-
-    this.obtenerClases()
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,25 +35,19 @@ export class CursoFormularioComponent {
     }
   }
 
-  private obtenerClases(){
-    this.clasesService.suscripcionClases().subscribe({
-      next:(clases)=>{
-        this.clases = clases
-      }
-    })
-  }
 
   enviar(){
-    const nuevoCurso = this.formulario.value
+    const nuevoCurso:curso = this.formulario.value
     if(this.actualizarCurso){
       nuevoCurso.id= this.actualizarCurso.id
     }
     this.nuevoCurso.emit(nuevoCurso)
-    this.formulario.reset({alumnos: []})
+    this.formulario.reset()
   }
 
   cancelar(){
     this.formulario.reset()
-    this.nuevoCurso.emit({alumnos: []})
+    this.nuevoCurso.emit()
   }
+
 }

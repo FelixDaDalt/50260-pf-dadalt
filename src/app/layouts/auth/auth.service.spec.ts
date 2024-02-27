@@ -75,28 +75,7 @@ describe('AuthService', () => {
   })));
 
 
-  it('should login successfully with correct credentials', inject([AuthService], (authService: AuthService) => {
-    const mockUser =
-      {
-        username: 'felix',
-        password: '123',
-        rol:{
-          id: 1,
-          rol: 'Administrador'
-        },
-        id:'3fdd'
-      }
 
-    const mockLogin = { username: 'felix', password: '123' };
-
-    authService.login(mockLogin);
-
-    const req = httpMock.expectOne(`http://localhost:3000/usuarios?username=${mockLogin.username}`);
-    expect(req.request.method).toBe('GET');
-    req.flush([mockUser]);
-
-    expect(authService.usuario.value).toEqual(mockUser);
-  }));
 
 });
 

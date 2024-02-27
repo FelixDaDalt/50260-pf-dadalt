@@ -1,70 +1,68 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { curso } from './modelos/curso';
-import { v4 as uuidCurso } from 'uuid';
-import { Alumno } from '../alumnos/modelos/alumno';
-import { ClasesService } from '../clases/clases.service';
-import { clase } from '../clases/modelos/clase';
+import { inscripcion } from '../inscripciones/modelo/inscripcion';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CursosService {
 
-  private curso$=new BehaviorSubject<curso | null>(null)
+
   private cursos$=new BehaviorSubject<curso[]>([])
-  private cursos:curso[]=[]
+
 
   constructor(private httpClient:HttpClient) {
-    this.getCursos()
+    this.obtenercursos()
   }
 
  /// API
-  private getCursos(){
-    this.httpClient.get<curso[]>('http://localhost:3000/cursos').subscribe({
+  getCursos():Observable<curso[]>{
+    return this.httpClient.get<curso[]>(`${environment.apiUrl}/cursos`)
+  }
+
+  private obtenercursos(){
+    this.getCursos().subscribe({
       next:(cursos)=>{
-        this.cursos = cursos
-        this.cursos$.next(this.cursos)
+        this.cursos$.next(cursos)
       }
     })
   }
 
   private postCurso(curso:curso){
-    this.httpClient.post<curso>('http://localhost:3000/cursos',curso).subscribe({
+    this.httpClient.post<curso>(`${environment.apiUrl}/cursos`,curso).subscribe({
       next:(cursoRPTA)=>{
-        this.curso$.next(cursoRPTA)
-        this.getCursos()
+        this.obtenercursos()
       }
     })
   }
 
   private deleteCurso(curso:curso){
-    this.httpClient.delete<curso>(`http://localhost:3000/cursos/${curso.id}`).subscribe({
+    this.httpClient.delete<curso>(`${environment.apiUrl}/cursos/${curso.id}?dependent=inscripciones`).subscribe({
       next:(cursoRPTA)=>{
-        cursoRPTA.delete = true;
-        this.curso$.next(cursoRPTA)
-        this.getCursos()
+        this.obtenercursos()
       }
     })
   }
 
   private updateCurso(curso:curso){
-    this.httpClient.put<curso>(`http://localhost:3000/cursos/${curso.id}`,curso).subscribe({
+    this.httpClient.put<curso>(`${environment.apiUrl}/cursos/${curso.id}`,curso).subscribe({
       next:(cursoRPTA)=>{
-        this.curso$.next(cursoRPTA)
-        this.getCursos()
+        this.obtenercursos()
       }
     })
   }
- /////
 
-  cursoActualizado(){
-    return this.curso$.asObservable()
+
+
+  buscarCurso(id: string):Observable<curso[]> {
+    return this.httpClient.get<curso[]>(`${environment.apiUrl}/cursos?id=${id}`)
   }
 
-  suscripcionCursos(){
-    return this.cursos$.asObservable()
+  buscarAlumnoCurso(id:string){
+    return this.httpClient.get<inscripcion[]>(`${environment.apiUrl}/inscripciones?_embed=curso&_embed=alumno&cursoId=${id}`)
   }
 
   agregarCursos(curso:curso){
@@ -79,61 +77,12 @@ export class CursosService {
     this.updateCurso(curso)
   }
 
-
-  buscarCurso(id: string) {
-    return this.cursos$.getValue().find(cur => cur.id === id);
+  suscripcionCursos(){
+    return this.cursos$.asObservable()
   }
 
-
-  ///ALUMNOS EN EL CURSO
-  agregarAlumnoCurso(alumno:Alumno){
-    const indice = this.cursos.findIndex(curso=>curso.id==alumno.curso_id)
-    if(indice!==-1){
-      this.cursos[indice].alumnos_id.push(alumno.id)
-      this.updateCurso(this.cursos[indice])
-    }
-  }
-
-  actualizarAlumnoCurso(alumnoViejo:Alumno, alumnoNuevo:Alumno){
-    this.borrarAlumnoCurso(alumnoViejo)
-    this.agregarAlumnoCurso(alumnoNuevo)
-  }
-
-  borrarAlumnoCurso(alumno:Alumno){
-    const indiceCurso = this.cursos.findIndex(curso=>curso.id==alumno.curso_id)
-    if(indiceCurso!==-1){
-      const indiceAlumno = this.cursos[indiceCurso].alumnos_id.findIndex(alu=>alu == alumno.id)
-      if(indiceAlumno!==-1){
-        this.cursos[indiceCurso].alumnos_id.splice(indiceAlumno,1)
-        this.updateCurso(this.cursos[indiceCurso])
-      }
-    }
-  }
-
-
-  /// CLASES EN EL CURSO
-  agregarClaseCurso(clase:clase){
-    const indice = this.cursos.findIndex(curso=>curso.id==clase.curso_id)
-    if(indice!==-1){
-      this.cursos[indice].clases_id.push(clase.id)
-      this.updateCurso(this.cursos[indice])
-    }
-  }
-
-  actualizarClaseCurso(claseVieja:clase, claseNueva:clase){
-    this.borrarClaseCurso(claseVieja)
-    this.agregarClaseCurso(claseNueva)
-  }
-
-  borrarClaseCurso(clase:clase){
-    const indiceCurso = this.cursos.findIndex(curso=>curso.id==clase.curso_id)
-    if(indiceCurso!==-1){
-      const indiceClase = this.cursos[indiceCurso].clases_id.findIndex(cla=>cla == clase.id)
-      if(indiceClase!==-1){
-        this.cursos[indiceCurso].clases_id.splice(indiceClase,1)
-        this.updateCurso(this.cursos[indiceCurso])
-      }
-    }
+  eliminarInscripcion(id:string){
+    return this.httpClient.delete<inscripcion[]>(`${environment.apiUrl}/inscripciones/${id}`)
   }
 
 }

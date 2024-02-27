@@ -14,14 +14,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { SlicePipe } from './pipes/slice.pipe';
 import {MatCardModule} from '@angular/material/card';
 import { CursoPipe } from './pipes/curso.pipe';
-import { ClasePipe } from './pipes/clase.pipe';
-import { AlumnoPipe } from './pipes/alumno.pipe';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SpinnerInterceptor } from './spinner/spinner-inteceptor.interceptor';
+import { SpinnerComponent } from './spinner/spinner.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
 
 @NgModule({
-  declarations: [NombreCompletoPipe, CursoPipe, ClasePipe, TituloDirective, DialogComponent, SlicePipe, ClasePipe, AlumnoPipe],
+  declarations: [NombreCompletoPipe, CursoPipe, TituloDirective, DialogComponent, SlicePipe, SpinnerComponent],
   imports: [
     CommonModule,
     MatDialogTitle,
@@ -35,11 +38,11 @@ import { AlumnoPipe } from './pipes/alumno.pipe';
     MatSelectModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
   exports:[
-  AlumnoPipe,
-  ClasePipe,
   CursoPipe,
   NombreCompletoPipe,
   TituloDirective,
@@ -55,6 +58,12 @@ import { AlumnoPipe } from './pipes/alumno.pipe';
   MatSelectModule,
   ReactiveFormsModule,
   MatIconModule,
-  MatCardModule]
+  MatCardModule,
+  MatAutocompleteModule,
+  MatProgressSpinnerModule,
+  SpinnerComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true }
+  ]
 })
 export class CompartidosModule { }

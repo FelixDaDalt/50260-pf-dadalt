@@ -1,8 +1,9 @@
-import { CursosService } from './../cursos/cursos.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Alumno } from './modelos/alumno';
 import { HttpClient } from '@angular/common/http';
+import { inscripcion } from '../inscripciones/modelo/inscripcion';
+import { environment } from '../../../../../environments/environment';
 
 
 @Injectable({
@@ -11,106 +12,77 @@ import { HttpClient } from '@angular/common/http';
 export class AlumnosService {
 
   private alumnos$=new BehaviorSubject<Alumno[]>([])
-  private alumnos:Alumno[]=[]
 
-  constructor(private cursosService:CursosService,
+
+  constructor(
     private httpClient:HttpClient) {
-    this.getAlumnos()
-    this.suscripcionCurso()
+    this.obtenerAlumnos()
   }
 
 
-  private getAlumnos(){
-    this.httpClient.get<Alumno[]>(`http://localhost:3000/alumnos`).subscribe({
+  getAlumnos() : Observable<Alumno[]>{
+   return this.httpClient.get<Alumno[]>(`${environment.apiUrl}/alumnos`)
+  }
+
+  obtenerAlumnos(){
+    this.getAlumnos().subscribe({
       next:(alumnos)=>{
-        this.alumnos = alumnos
-        this.alumnos$.next(this.alumnos)
+        this.alumnos$.next(alumnos)
       }
     })
   }
 
   private addAlumno(alumno:Alumno){
-    this.httpClient.post<Alumno>(`http://localhost:3000/alumnos`,alumno).subscribe({
+    this.httpClient.post<Alumno>(`${environment.apiUrl}/alumnos`,alumno).subscribe({
       next:(alumno)=>{
-        this.getAlumnos()
-        this.cursosService.agregarAlumnoCurso(alumno)
+        this.obtenerAlumnos()
       }
     })
   }
 
   private deleteAlumno(alumno:Alumno){
-    this.httpClient.delete<Alumno>(`http://localhost:3000/alumnos/${alumno.id}`).subscribe({
+    this.httpClient.delete<any>(`${environment.apiUrl}/alumnos/${alumno.id}?dependent=inscripciones`).subscribe({
       next:(alumno)=>{
-        this.getAlumnos()
+        this.obtenerAlumnos()
       }
     })
   }
 
   private updateAlumno(alumno:Alumno){
-    this.httpClient.put<Alumno>(`http://localhost:3000/alumnos/${alumno.id}`,alumno).subscribe({
+    this.httpClient.put<Alumno>(`${environment.apiUrl}/alumnos/${alumno.id}`,alumno).subscribe({
       next:(alumno)=>{
-        this.getAlumnos()
+        this.obtenerAlumnos()
       }
     })
   }
 
-  suscripcionAlumnos(){
-    return this.alumnos$.asObservable()
-  }
 
   agregarAlumnos(alumno:Alumno){
     this.addAlumno(alumno)
   }
 
   borrarAlumno(alumno:Alumno){
-    const indice = this.alumnos.findIndex(alu=>alu.id==alumno.id)
-    if(indice!== -1){
-      const alumno = this.alumnos[indice]
-      this.cursosService.borrarAlumnoCurso(alumno)
-      this.deleteAlumno(alumno)
-    }
-
+    this.deleteAlumno(alumno)
   }
-
 
   actualizarAlumnos(alumno:Alumno){
-    const indice = this.alumnos.findIndex(alu=>alu.id==alumno.id)
-    if(indice!== -1){
-      const alumnoViejo = this.alumnos[indice]
-      if(alumnoViejo.curso_id !== alumno.curso_id)//cambio de curso
-      {
-        this.cursosService.actualizarAlumnoCurso(alumnoViejo,alumno)
-      }
-      this.alumnos[indice]=alumno
-      this.updateAlumno(this.alumnos[indice])
-    }
+    this.updateAlumno(alumno)
   }
 
-  buscarAlumno(id:string){
-    return this.alumnos.find(alumno=>alumno.id === id)
+  buscarAlumnoCurso(id:string){
+    return this.httpClient.get<inscripcion[]>(`${environment.apiUrl}/inscripciones?_embed=curso&_embed=alumno&alumnoId=${id}`)
   }
 
+  buscarAlumno(id: string):Observable<Alumno[]> {
+    return this.httpClient.get<Alumno[]>(`${environment.apiUrl}/alumnos?id=${id}`)
+  }
 
-  private suscripcionCurso() {
-    this.cursosService.cursoActualizado().subscribe({
-        next: (curso) => {
-            if (curso) {
-                for (const alumno of this.alumnos) {
-                    // Busca la clase correspondiente en el curso
-                    const alumnoCorrespondiente = curso.alumnos_id.find((a) => a === alumno.id);
-                    if (alumnoCorrespondiente && !curso.delete) {
-                        // Si se encuentra la clase correspondiente, asigna el curso a esa clase
-                        alumno.curso_id = curso.id;
-                        this.updateAlumno(alumno)
-                    } else {
-                      // Si la clase no se encuentra en el curso actualizado, elimina la asignación de curso
-                      alumno.curso_id = null;
-                      this.updateAlumno(alumno);
-                  }
+  eliminarInscripcion(id:string){
+    return this.httpClient.delete<inscripcion[]>(`${environment.apiUrl}/inscripciones/${id}`)
+  }
 
-                }
-            }
-        }
-    });
-}
+  suscripcionAlumnos(){
+    return this.alumnos$.asObservable()
+  }
+
 }

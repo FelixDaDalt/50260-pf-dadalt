@@ -5,6 +5,8 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import { usuario } from '../auth/modelos/usuario';
+import { Store } from '@ngrx/store';
+import { selectorUsuario } from '../../core/store/auth/selector';
 
 interface ExampleFlatNode {
   expandable: boolean;
@@ -26,18 +28,6 @@ export class DashboardComponent implements OnInit{
   showFiller = false;
   menu: Menu[] = [
     {
-      nombre: 'Usuarios',
-      icono:'supervised_user_circle',
-      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
-      enlace:'usuarios'
-    },
-    {
-      nombre: 'Clases',
-      icono:'dashboard',
-      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
-      enlace:'clases'
-    },
-    {
       nombre: 'Cursos',
       icono:'record_voice_over',
       hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
@@ -48,6 +38,18 @@ export class DashboardComponent implements OnInit{
       icono:'person_raised_hand',
       hijo: [{nombre: 'Alta',enlace:'alumnos'}, {nombre: 'Modificacion',enlace:'alumnos'}, {nombre: 'Listado'}],
       enlace:'alumnos'
+    },
+    {
+      nombre: 'Inscripciones',
+      icono:'person_raised_hand',
+      hijo: [{nombre: 'Alta',enlace:'alumnos'}, {nombre: 'Modificacion',enlace:'alumnos'}, {nombre: 'Listado'}],
+      enlace:'Inscripciones'
+    },
+    {
+      nombre: 'Usuarios',
+      icono:'supervised_user_circle',
+      hijo: [{nombre: 'Alta'}, {nombre: 'Modificacion'}, {nombre: 'Listado'}],
+      enlace:'usuarios'
     },
   ];
 
@@ -76,7 +78,7 @@ export class DashboardComponent implements OnInit{
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   usuario$?:Observable<usuario | null>
 
-  constructor(private authService:AuthService) {  }
+  constructor(private authService:AuthService, private store:Store) {  }
 
   ngOnInit(): void {
     this.dataSource.data = this.menu;
@@ -90,7 +92,7 @@ export class DashboardComponent implements OnInit{
   }
 
   private obtenerUsuario(){
-    this.usuario$ = this.authService.obtenerUsuario()
+    this.usuario$ = this.store.select(selectorUsuario)
   }
 }
 

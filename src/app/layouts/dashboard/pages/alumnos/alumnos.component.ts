@@ -6,6 +6,10 @@ import { AlumnosService } from './alumnos.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../../../compartidos/dialog/dialog.component';
+import { Observable } from 'rxjs';
+import { usuario } from '../../../auth/modelos/usuario';
+import { Store } from '@ngrx/store';
+import { selectorUsuario } from '../../../../core/store/auth/selector';
 
 @Component({
   selector: 'app-alumnos',
@@ -14,15 +18,18 @@ import { DialogComponent } from '../../../../compartidos/dialog/dialog.component
 })
 export class AlumnosComponent {
 
-  displayedColumns: string[] = ['id','apellidoyNombre','DNI','curso','#'];
+  displayedColumns: string[] = ['id','apellidoyNombre','DNI','#'];
   alumnos= new MatTableDataSource<Alumno>([]);
   alumnoActualizar!:Alumno|null
+  usuario$ = new Observable<usuario | null>
 
   constructor(private alumnosService:AlumnosService,
     private router: Router,
-    private cursosService:CursosService,
-    public dialog: MatDialog){
+    public dialog: MatDialog,
+    private store:Store)
+  {
     this.obtenerAlumnos()
+    this.usuario$ = this.store.select(selectorUsuario)
   }
 
   private obtenerAlumnos(){
@@ -56,12 +63,6 @@ export class AlumnosComponent {
   }
 
   eliminarAlumno(alumno:Alumno):void{
-    if(alumno.curso_id){
-      const dialogRef = this.dialog.open(DialogComponent, {
-        data: {titulo: 'Error', contenido: 'No se puede eliminar '+alumno.apellido+','+alumno.nombre+' porque esta asignado a un curso.'},
-      });
-      return;
-    }
     this.alumnosService.borrarAlumno(alumno)
   }
 
@@ -79,7 +80,4 @@ export class AlumnosComponent {
       ])
   }
 
-  getCursoNombre(id_curso:string){
-    return this.cursosService.buscarCurso(id_curso)
-  }
 }

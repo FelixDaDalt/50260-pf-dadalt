@@ -1,3 +1,4 @@
+
 <mat-drawer-container class="example-container">
     <mat-drawer #drawer class="example-sidenav" mode="side" opened>
       <img src="./assets/imagenes/logo.jpeg" style="width: 100%;">
@@ -12,15 +13,9 @@
         </mat-tree-node>
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-            <!-- SI QUISIERAMOS EXPANDIR LOS NODOS
-            <button mat-icon-button matTreeNodeToggle
-                    [attr.aria-label]="'Toggle ' + node.name" >
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-              </mat-icon>
-            </button>
-            -->
-          <mat-icon class="pointer" [routerLink]="[node.enlace]">{{node.icono}}</mat-icon>-<span class="pointer" [routerLink]="[node.enlace]">{{node.name}}</span>
+          <div *ngIf="!((usuario$ | async)?.rol?.id != 1 && node.enlace==='usuarios')">
+            <mat-icon class="pointer" [routerLink]="[node.enlace]">{{node.icono}}</mat-icon>-<span class="pointer" [routerLink]="[node.enlace]">{{node.name}}</span>
+          </div>
         </mat-tree-node>
 
       </mat-tree>
@@ -36,7 +31,10 @@
         <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
           <mat-icon>person_pin</mat-icon>
         </button>
-        <span>{{(usuario$ | async)?.username}}</span>
+        <div *ngIf="usuario$ | async; let user">
+          <span >{{user.username}}</span> / Rol: <span>{{user.rol.rol}}</span>
+        </div>
+
         <button mat-icon-button class="example-icon" color="warn" aria-label="Example icon-button with share icon" (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
         </button>

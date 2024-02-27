@@ -1,10 +1,9 @@
-import { Alumno } from "../../alumnos/modelos/alumno";
-import { clase } from "../../clases/modelos/clase";
-
 export interface curso{
-  id:string;
+  id?:string;
   nombre:string;
-  alumnos_id:string[];
-  clases_id:string[]
-  delete?: boolean;
+  profesor:string;
+  horaInicio:string;
+  horaFin:string;
+  fechaInicio:string;
+  fechaFin:string;
 }

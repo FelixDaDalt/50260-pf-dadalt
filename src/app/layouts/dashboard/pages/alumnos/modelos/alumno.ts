@@ -5,5 +5,4 @@ export interface Alumno{
   documento:number,
   telefono:number,
   direccion:string,
-  curso_id:string | null
 }

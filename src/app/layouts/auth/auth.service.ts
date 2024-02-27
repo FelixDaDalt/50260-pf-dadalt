@@ -5,8 +5,11 @@ import { login } from './modelos/login';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../compartidos/dialog/dialog.component';
 import { v4 as uuidToken } from 'uuid';
-import { BehaviorSubject, map, of } from 'rxjs';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Subscription,of } from 'rxjs';
+import { HttpClient} from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { usuarioAuth } from '../../core/store/auth/actions';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,22 +17,23 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 export class AuthService {
 
   usuarios:usuario[]= []
+  sus?:Subscription
 
-  usuario=new BehaviorSubject<usuario | null>(null)
 
   constructor(private router:Router,
     public dialog: MatDialog,
-    private httpClient:HttpClient) {
+    private httpClient:HttpClient,
+    private store:Store) {
       this.verificarToken()
   }
 
 
   getUsuario(usuarioLogin:login){
-    return this.httpClient.get<usuario[]>(`http://localhost:3000/usuarios?username=${usuarioLogin.username}`)
+    return this.httpClient.get<usuario[]>(`${environment.apiUrl}/usuarios?username=${usuarioLogin.username}`)
   }
 
   getUsuariobyId(usuarioId:number){
-    return this.httpClient.get<usuario[]>(`http://localhost:3000/usuarios?id=${usuarioId}`)
+    return this.httpClient.get<usuario[]>(`${environment.apiUrl}/usuarios?id=${usuarioId}`)
   }
 
   login(usuarioLogin:login):void{
@@ -49,7 +53,6 @@ export class AuthService {
   }
 
   loginCompleto(usuarioRPTA:usuario): void {
-    this.usuario.next(usuarioRPTA)
     const token = uuidToken();
     const data = {
       token: token,
@@ -81,21 +84,22 @@ export class AuthService {
   }
 
   setUser(userId:number){
-    this.getUsuariobyId(userId).subscribe({
+    if(this.sus){
+      this.sus?.unsubscribe()
+    }
+    this.sus = this.getUsuariobyId(userId).subscribe({
       next:(usuario)=>{
-        this.usuario.next(usuario[0])
+        this.store.dispatch(usuarioAuth.establecer({usuario:usuario[0]}))
       }
     })
   }
 
   logout(){
-    this.usuario.next(null)
+    this.store.dispatch(usuarioAuth.eliminar())
     localStorage.removeItem('app-felix')
     this.router.navigate(['auth'])
   }
 
-  obtenerUsuario(){
-    return this.usuario.asObservable()
-  }
+
 
 }

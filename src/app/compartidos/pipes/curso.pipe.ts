@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CursosService } from '../../layouts/dashboard/pages/cursos/cursos.service';
+import { map } from 'rxjs';
 
 @Pipe({
   name: 'curso'
@@ -7,26 +8,26 @@ import { CursosService } from '../../layouts/dashboard/pages/cursos/cursos.servi
 export class CursoPipe implements PipeTransform {
   constructor(private cursoService: CursosService) {}
 
-  transform(id: string | null, mode?:'nombre' | 'alumnos' | 'clases_id',): any {
+  async transform(id: string | null, mode?: 'nombre'): Promise<any> {
+    if (id == null) {
+      return 'Sin Asignación';
+    } else {
+      try {
+        const curso = await this.cursoService.buscarCurso(id).toPromise();
+        if (!curso) {
+          return 'Sin Asignación';
+        }
 
-    if(id==null){
-      return 'Sin Asignacion'
-    }
-
-    let curso = this.cursoService.buscarCurso(id);
-    if(!curso){
-      return 'Sin Asignacion'
-    }
-
-    switch (mode) {
-      case 'nombre':
-        return curso?.nombre;
-      case 'alumnos':
-        return curso?.alumnos_id;
-      case 'clases_id':
-        return curso?.clases_id;
-      default:
-        return curso;
+        switch (mode) {
+          case 'nombre':
+            return curso[0].nombre;
+          default:
+            return curso;
+        }
+      } catch (error) {
+        console.error('Error al buscar curso:', error);
+        return 'Sin Asignación';
+      }
     }
   }
 
