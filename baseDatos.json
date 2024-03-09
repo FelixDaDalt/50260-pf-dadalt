@@ -1,0 +1,67 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin",
+      "rol": {
+        "id": 1,
+        "rol": "Administrador"
+      }
+    },
+    {
+      "id": "2",
+      "username": "inscripciones",
+      "password": "12345",
+      "rol": {
+        "id": 2,
+        "rol": "Inscripciones"
+      }
+    },
+    {
+      "username": "felix",
+      "password": "123",
+      "rol": {
+        "id": 1,
+        "rol": "Administrador"
+      },
+      "id": "3fdd"
+    }
+  ],
+  "alumnos": [
+    {
+      "id": "e3a8",
+      "nombre": "Daniela",
+      "apellido": "Cotti",
+      "documento": 32079491,
+      "telefono": 22345668738,
+      "direccion": "Garay 1790"
+    },
+    {
+      "id": "2da7",
+      "nombre": "Felix",
+      "apellido": "DaDalt",
+      "documento": 32079491,
+      "telefono": 2234568738,
+      "direccion": "Garay 1790"
+    }
+  ],
+  "cursos": [
+    {
+      "id": "38d5",
+      "nombre": "Angular 2",
+      "profesor": "Daniela",
+      "horaInicio": "10:00",
+      "horaFin": "12:00",
+      "fechaInicio": "2024-01-10",
+      "fechaFin": "2024-02-10"
+    }
+  ],
+  "inscripciones": [
+    {
+      "id": "55cb",
+      "alumnoId": "e3a8",
+      "cursoId": "38d5"
+    }
+  ]
+}

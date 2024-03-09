@@ -18,7 +18,7 @@ export class CursosService {
     this.obtenercursos()
   }
 
- /// API
+
   getCursos():Observable<curso[]>{
     return this.httpClient.get<curso[]>(`${environment.apiUrl}/cursos`)
   }
